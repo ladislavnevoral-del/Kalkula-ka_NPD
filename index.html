@@ -25,10 +25,12 @@ h2{font-size:17px;font-weight:700;margin-bottom:5px}
 .field label{display:block;font-size:11px;color:#888;font-weight:700;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
 .field input[type=number]{width:100%;height:46px;border:1.5px solid #e0e0e0;border-radius:8px;padding:0 13px;font-size:16px;background:#fafafa;color:#1a1a1a;font-family:inherit;-webkit-appearance:none;appearance:none}
 .field input:focus{outline:none;border-color:#a00000;background:#fff}
-.member-row{display:flex;align-items:center;gap:6px;padding:8px 9px;background:#f8f8f8;border-radius:8px;margin-bottom:5px;flex-wrap:wrap}
-.member-row select{flex:1;min-width:140px;height:38px;font-size:13px;border:1px solid #e0e0e0;border-radius:7px;background:#fff;color:#1a1a1a;font-family:inherit;padding:0 6px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}
-.pension-lbl{display:flex;align-items:center;gap:5px;font-size:12px;color:#666;white-space:nowrap;cursor:pointer;padding:6px 4px;min-height:38px}
-.pension-lbl input{accent-color:#a00000;width:17px;height:17px}
+.member-row{display:flex;align-items:center;gap:8px;padding:9px 10px;background:#f8f8f8;border-radius:8px;margin-bottom:6px;flex-wrap:wrap}
+.type-radios{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+.type-radio{display:flex;align-items:center;gap:5px;font-size:12px;color:#555;cursor:pointer;padding:6px 10px 6px 8px;border-radius:14px;border:1px solid #e0e0e0;background:#fff;transition:.15s;white-space:nowrap;min-height:30px}
+.type-radio input{accent-color:#a00000;width:15px;height:15px;cursor:pointer;flex-shrink:0}
+.type-radio.checked{background:#fff5f5;border-color:#a00000;color:#1a1a1a;font-weight:700}
+.member-first-lbl{font-size:10px;color:#aaa;flex-shrink:0;padding:6px 9px;background:#fff;border-radius:14px;border:1px solid #e0e0e0;white-space:nowrap}
 .del-btn{width:38px;height:38px;border:1px solid #e8e8e8;background:#fff;border-radius:7px;cursor:pointer;font-size:14px;color:#bbb;flex-shrink:0}
 .del-btn:active{color:#a00000;border-color:#f0c0c0}
 .add-btn{width:100%;min-height:42px;border:1.5px dashed #ddd;border-radius:8px;background:transparent;font-size:13px;color:#999;cursor:pointer;font-family:inherit;margin-bottom:1rem}
@@ -137,8 +139,8 @@ h2{font-size:17px;font-weight:700;margin-bottom:5px}
   </div>
 
   <div class="card">
-    <div class="prog-lbl" id="prog-lbl">Krok 1 ze 3</div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:33%"></div></div>
+    <div class="prog-lbl" id="prog-lbl">Krok 1 ze 2</div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:50%"></div></div>
 
     <div id="s0">
       <h2>Příjem a složení domácnosti</h2>
@@ -240,25 +242,11 @@ h2{font-size:17px;font-weight:700;margin-bottom:5px}
       </div>
       <div class="btn-row">
         <button type="button" class="btn-back" id="b1">← Zpět</button>
-        <button type="button" class="btn-next" id="n1" disabled>Pokračovat →</button>
+        <button type="button" class="btn-next" id="n1" disabled>Zjistit výsledek →</button>
       </div>
     </div>
 
-    <div id="s2" style="display:none">
-      <h2>Platí pro vás výjimka?</h2>
-      <p class="sub">U domácností důchodců nebo s členem s těžkým postižením jsou podmínky mírnější – nárok mají až do 5. decilu.</p>
-      <div class="tog-group">
-        <div class="tog-opt" data-sp="0"><div class="tog-ico">👴</div><div style="flex:1"><div class="tog-t">Všichni dospělí pobírají starobní důchod</div><div class="tog-d">Domácnost složená výhradně z důchodců</div></div><div class="tog-chk"></div></div>
-        <div class="tog-opt" data-sp="1"><div class="tog-ico">♿</div><div style="flex:1"><div class="tog-t">Člen domácnosti má invalidní důchod III. stupně</div><div class="tog-d">Alespoň jedna osoba s invaliditou 3. stupně</div></div><div class="tog-chk"></div></div>
-        <div class="tog-opt" data-sp="2"><div class="tog-ico">👨‍👩‍👧</div><div style="flex:1"><div class="tog-t">Žádná z výše uvedených situací</div><div class="tog-d">Standardní složení domácnosti</div></div><div class="tog-chk"></div></div>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn-back" id="b2">← Zpět</button>
-        <button type="button" class="btn-next" id="n2" disabled>Zjistit výsledek →</button>
-      </div>
-    </div>
-
-    <div id="s3" style="display:none"></div>
+    <div id="s2" style="display:none"></div>
   </div>
 
   <div class="footer">
@@ -270,11 +258,25 @@ h2{font-size:17px;font-weight:700;margin-bottom:5px}
 <script>
 var DECIL=[15000,19000,24000,28000,31000,35000,40000,47000,60000];
 var MAX_EKV=75000;
-var members=[{type:'adult1',pension:false},{type:'adult',pension:false}];
-var nemSel=-1,spSel=-1;
+var ADULT_TYPES=[
+  {v:'dospely',   l:'Dospělý'},
+  {v:'duchodce',  l:'Důchodce'},
+  {v:'invalidni', l:'Invalidní důchodce 3. stupně'}
+];
+var CHILD_TYPE={v:'dite', l:'Dítě do 14 let'};
+var ALL_TYPES=ADULT_TYPES.concat([CHILD_TYPE]);
+
+var members=[{type:'dospely'},{type:'dospely'}];
+var nemSel=-1;
 
 function $(id){return document.getElementById(id);}
-function weight(t){return t==='adult1'?1.0:(t==='adult'?0.5:0.3);}
+function weight(type,idx){
+  if(type==='dite')return 0.3;
+  return idx===0?1.0:0.5;
+}
+function isPensionType(t){return t==='duchodce'||t==='invalidni';}
+function allPension(){return members.every(function(m){return m.type==='dite'?true:isPensionType(m.type);});}
+function hasInvalidType(){return members.some(function(m){return m.type==='invalidni';});}
 function fmt(n){
   n=Math.round(n);
   var s=String(Math.abs(n));
@@ -285,7 +287,7 @@ function fmt(n){
   }
   return (n<0?'-':'')+out;
 }
-function getW(){var w=0;for(var i=0;i<members.length;i++)w+=weight(members[i].type);return w;}
+function getW(){var w=0;for(var i=0;i<members.length;i++)w+=weight(members[i].type,i);return w;}
 function getInc(){var v=parseFloat($('prijem').value);return isNaN(v)?0:v;}
 function getEkv(){var w=getW();return w>0?getInc()/w:0;}
 function getUserDecil(ekv){for(var i=0;i<DECIL.length;i++){if(ekv<=DECIL[i])return i+1;}return 10;}
@@ -296,37 +298,50 @@ function renderMembers(){
   for(var i=0;i<members.length;i++){
     (function(i){
       var m=members[i];
-      var isFirst=(m.type==='adult1');
+      var isFirst=(i===0);
       var row=document.createElement('div');
       row.className='member-row';
-      var sel=document.createElement('select');
-      sel.disabled=isFirst;
-      var opts=[{v:'adult1',l:'Dospělý – 1. člen (hlava domácnosti)'},{v:'adult',l:'Dospělý / dospělá (15 a více let)'},{v:'child',l:'Dítě (do 14 let)'}];
+
+      var radios=document.createElement('div');
+      radios.className='type-radios';
+      var opts=isFirst?ADULT_TYPES:ALL_TYPES;
+      var groupName='mtype-'+i+'-'+Math.random().toString(36).slice(2,7);
       for(var j=0;j<opts.length;j++){
-        var o=document.createElement('option');
-        o.value=opts[j].v;o.textContent=opts[j].l;
-        if(m.type===opts[j].v)o.selected=true;
-        sel.appendChild(o);
+        (function(o){
+          var lbl=document.createElement('label');
+          lbl.className='type-radio'+(m.type===o.v?' checked':'');
+          var inp=document.createElement('input');
+          inp.type='radio';inp.name=groupName;inp.value=o.v;
+          if(m.type===o.v)inp.checked=true;
+          inp.addEventListener('change',function(){
+            members[i].type=o.v;
+            var lbls=radios.querySelectorAll('.type-radio');
+            for(var k=0;k<lbls.length;k++){
+              var on=lbls[k].querySelector('input').value===o.v;
+              if(on)lbls[k].className='type-radio checked';else lbls[k].className='type-radio';
+            }
+            updateEkv();
+          });
+          var sp=document.createElement('span');sp.textContent=o.l;
+          lbl.appendChild(inp);lbl.appendChild(sp);
+          radios.appendChild(lbl);
+        })(opts[j]);
       }
-      sel.addEventListener('change',function(){
-        members[i].type=this.value;members[i].pension=false;
-        renderMembers();updateEkv();
-      });
-      var lbl=document.createElement('label');
-      lbl.className='pension-lbl';
-      var cb=document.createElement('input');
-      cb.type='checkbox';cb.checked=m.pension;
-      if(m.type==='child'){cb.disabled=true;cb.checked=false;}
-      cb.addEventListener('change',function(){members[i].pension=this.checked;updateEkv();});
-      lbl.appendChild(cb);
-      lbl.appendChild(document.createTextNode(' Důchod'));
-      var del=document.createElement('button');
-      del.type='button';del.className='del-btn';del.textContent='✕';
-      if(isFirst){del.disabled=true;del.style.opacity='.3';}
-      del.addEventListener('click',function(){
-        if(!isFirst){members.splice(i,1);renderMembers();updateEkv();}
-      });
-      row.appendChild(sel);row.appendChild(lbl);row.appendChild(del);
+      row.appendChild(radios);
+
+      if(!isFirst){
+        var del=document.createElement('button');
+        del.type='button';del.className='del-btn';del.textContent='✕';
+        del.addEventListener('click',function(){
+          members.splice(i,1);renderMembers();updateEkv();
+        });
+        row.appendChild(del);
+      } else {
+        var hint=document.createElement('div');
+        hint.className='member-first-lbl';
+        hint.textContent='1. člen';
+        row.appendChild(hint);
+      }
       list.appendChild(row);
     })(i);
   }
@@ -390,7 +405,7 @@ function renderTable(ekv){
     ['7.','Bez nároku',40000,60000,72000,84000],
     ['8.','Bez nároku',47000,70500,84600,98700],
     ['9.','Bez nároku',60000,90000,108000,126000],
-    ['10.','Bez nároku',null,null,null,null]
+    ['10.','Bez nároku',60000,90000,108000,126000]
   ];
   for(var i=0;i<rows.length;i++){
     var r=rows[i];
@@ -399,17 +414,18 @@ function renderTable(ekv){
     if(i===d-1)cls+=' act';
     tr.className=cls;
     var mark=(i===d-1)?' ◀':'';
-    function fc(v){return v!=null?('do '+fmt(v)+' Kč'):('nad '+fmt(60000)+' Kč');}
-    tr.innerHTML='<td>'+r[0]+mark+'</td><td>'+r[1]+'</td><td>'+fc(r[2])+'</td><td>'+fc(r[3])+'</td><td>'+fc(r[4])+'</td><td>'+fc(r[5])+'</td>';
+    var isLast=(i===9);
+    function fc(v,last){return (last?'nad ':'do ')+fmt(v)+' Kč';}
+    tr.innerHTML='<td>'+r[0]+mark+'</td><td>'+r[1]+'</td><td>'+fc(r[2],isLast)+'</td><td>'+fc(r[3],isLast)+'</td><td>'+fc(r[4],isLast)+'</td><td>'+fc(r[5],isLast)+'</td>';
     body.appendChild(tr);
   }
 }
 
 function setStep(s){
-  var ids=['s0','s1','s2','s3'];
-  for(var i=0;i<4;i++)$(ids[i]).style.display=(i===s)?'':'none';
-  var lbls=['Krok 1 ze 3','Krok 2 ze 3','Krok 3 ze 3',''];
-  var pcts=['33%','66%','100%','100%'];
+  var ids=['s0','s1','s2'];
+  for(var i=0;i<3;i++)$(ids[i]).style.display=(i===s)?'':'none';
+  var lbls=['Krok 1 ze 2','Krok 2 ze 2',''];
+  var pcts=['50%','100%','100%'];
   $('prog-lbl').textContent=lbls[s];
   $('prog-fill').style.width=pcts[s];
   window.scrollTo(0,0);
@@ -427,33 +443,18 @@ function selNem(i){
   $('nem-detail').style.display='block';
 }
 
-function selSp(i){
-  spSel=i;
-  var opts=document.querySelectorAll('[data-sp]');
-  for(var j=0;j<opts.length;j++){
-    var sel=(parseInt(opts[j].getAttribute('data-sp'),10)===i);
-    opts[j].className='tog-opt'+(sel?' sel':'');
-    opts[j].querySelector('.tog-chk').textContent=sel?'✓':'';
-  }
-  $('n2').disabled=false;
-}
-
 function showResult(){
-  setStep(3);
+  setStep(2);
   var ekv=getEkv();
   var d=getUserDecil(ekv);
-  var allPension=true;
-  for(var i=0;i<members.length;i++){
-    if(members[i].type!=='child'&&!members[i].pension){allPension=false;break;}
-  }
-  var isDuchodci=(spSel===0)||allPension;
-  var hasInvalid=(spSel===1);
+  var isDuchodci=allPension();
+  var hasInvalid=hasInvalidType();
   var inD3=(d<=3);
   var inD5sp=(d<=5)&&(isDuchodci||hasInvalid);
   var prijmNarok=inD3||inD5sp;
   var nemNarok=(nemSel<=1);
   var narok=prijmNarok&&nemNarok;
-  var res=$('s3');
+  var res=$('s2');
   var html='';
 
   if(narok){
@@ -494,11 +495,11 @@ function showResult(){
 }
 
 function restart(){
-  members=[{type:'adult1',pension:false},{type:'adult',pension:false}];
-  nemSel=-1;spSel=-1;
+  members=[{type:'dospely'},{type:'dospely'}];
+  nemSel=-1;
   $('prijem').value='';
   $('nem-detail').style.display='none';
-  $('n1').disabled=true;$('n2').disabled=true;
+  $('n1').disabled=true;
   var allOpts=document.querySelectorAll('.tog-opt');
   for(var i=0;i<allOpts.length;i++){
     allOpts[i].className='tog-opt';
@@ -510,7 +511,7 @@ function restart(){
 
 function init(){
   $('btn-add').addEventListener('click',function(){
-    members.push({type:'adult',pension:false});
+    members.push({type:'dospely'});
     renderMembers();updateEkv();
   });
   $('prijem').addEventListener('input',updateEkv);
@@ -527,10 +528,8 @@ function init(){
     if(vis)renderTable(getEkv());
   });
   $('n0').addEventListener('click',function(){setStep(1);});
-  $('n1').addEventListener('click',function(){setStep(2);});
-  $('n2').addEventListener('click',showResult);
+  $('n1').addEventListener('click',showResult);
   $('b1').addEventListener('click',function(){setStep(0);});
-  $('b2').addEventListener('click',function(){setStep(1);});
   var nems=document.querySelectorAll('[data-nem]');
   for(var i=0;i<nems.length;i++){
     (function(el){
@@ -538,14 +537,6 @@ function init(){
         selNem(parseInt(el.getAttribute('data-nem'),10));
       });
     })(nems[i]);
-  }
-  var sps=document.querySelectorAll('[data-sp]');
-  for(var j=0;j<sps.length;j++){
-    (function(el){
-      el.addEventListener('click',function(){
-        selSp(parseInt(el.getAttribute('data-sp'),10));
-      });
-    })(sps[j]);
   }
   renderMembers();
   renderTable(0);
